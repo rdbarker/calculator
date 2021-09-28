@@ -1,0 +1,46 @@
+body{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+.wrapper{
+    display: flex;
+    flex-direction: column;
+    width: 400px;
+}
+
+.screen{
+    height: 52px;
+    font-size: 54px;
+    background-color: rgb(233, 233, 233);
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 6px;
+    border: 1px solid rgb(53, 53, 53);
+}
+.row{
+    display: flex;
+    
+}
+button{
+    margin: 0;
+    padding: 0;
+    border: 1px solid rgb(53, 53, 53);
+    width: 20%;
+    height: 80px;
+    font-size: 32px;
+}
+
+.button-number{
+    background-color: rgb(184, 184, 184);
+}
+
+.button-operator{
+    background-color: rgb(245, 198, 112);
+}
+
+.button-function{
+    background-color: rgb(102, 102, 102);
+}

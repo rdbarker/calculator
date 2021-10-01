@@ -2,17 +2,51 @@ const documentScreen = document.querySelector(".screen");
 const documentNumberButtons = document.querySelectorAll(".button-number");
 const documentOperatorButtons = document.querySelectorAll(".button-operator");
 const documentFunctionButtons = document.querySelectorAll(".button-function");
-
+let values = [];
+let displayingTotal = false;
 
 function updateScreen(text){
-    documentScreen.textContent+=text;
+  documentScreen.textContent+=text;
 }
 function deleteLastNumber(){
-    const currentText = documentScreen.textContent;
-    documentScreen.textContent = currentText.slice(0,-1);
+  const currentText = documentScreen.textContent;
+  documentScreen.textContent = currentText.slice(0,-1);
 }
-function pressedNumber(e){
-    updateScreen(this.dataset["value"]);
+function clearScreen(){
+  documentScreen.textContent = "";
+}
+function pressedNumber(){
+  if (displayingTotal) {
+    clearScreen();
+    values = [];
+    displayingTotal = false;
+  }
+  updateScreen(this.dataset["value"]);
+}
+function pressedOperator(){
+  if (displayingTotal) displayingTotal = false;
+  values.push(documentScreen.textContent);
+  values.push(this.dataset["value"]);
+  clearScreen();
+}
+function pressedFunction(){
+  const functionPressed = this.dataset["value"];
+  switch(functionPressed){
+    case "equal":
+      values.push(documentScreen.textContent);
+      const total = evaluateTotal(values);
+      clearScreen();
+      updateScreen(total);
+      displayingTotal = true;
+      values = [];
+      break;
+    case "clear":
+      clearScreen();
+      values = [];
+      break;
+  }
+
+
 }
 function operate(num1,opp,num2){
     const n1 = parseFloat(num1);
@@ -30,7 +64,7 @@ function operate(num1,opp,num2){
     }
     
   }
-function evaluateInput(array){
+function evaluateTotal(array){
     const length = array.length;
     let evaluatedArray = [];
     let i = 0;
@@ -54,9 +88,10 @@ function evaluateInput(array){
       }
       else return previousValue;
     })
-    console.log(total);
-    return evaluatedArray;
+    return total;
 }
 
 documentNumberButtons.forEach(item => item.addEventListener("click",pressedNumber));
-console.log(evaluateInput(["12","+","7","-","5","*","3","/","5"]));
+documentOperatorButtons.forEach(item => item.addEventListener("click",pressedOperator));
+documentFunctionButtons.forEach(item => item.addEventListener("click",pressedFunction));
+console.log(evaluateTotal(["12","+","7","-","5","*","3","/","5"]));
